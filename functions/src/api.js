@@ -8,7 +8,13 @@ if (admin.apps.length === 0) {
 }
 
 const app = express();
-app.use(cors({ origin: "http://localhost:5173" }));
+// Update CORS to allow both local and Vercel frontend
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://saas-todo-six.vercel.app"
+  ]
+}));
 app.use(express.json());
 
 // --- Analytics Endpoint ---
