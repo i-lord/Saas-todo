@@ -219,27 +219,27 @@ const TaskBoard = () => {
   }, {});
 
   // Column colors for visual distinction
-  const columnColors = {
-    'Todo': '#e3f2fd',
-    'In Progress': '#fff3e0', 
-    'Done': '#e8f5e8'
-  };
+  const columnColors = (theme) => ({
+    'Todo': theme.palette.mode === 'dark' ? '#222b36' : '#e3f2fd',
+    'In Progress': theme.palette.mode === 'dark' ? '#2d261a' : '#fff3e0',
+    'Done': theme.palette.mode === 'dark' ? '#1b2e1b' : '#e8f5e8'
+  });
 
   return (
-    <Box sx={{ flexGrow: 1, overflowX: 'auto' }}>
-      <Grid container spacing={3} sx={{ minWidth: '900px', flexWrap: 'nowrap' }}>
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={3}>
         {statusColumns.map((col) => (
-          <Grid item xs={4} key={col.key} sx={{ minWidth: '280px', flex: '1 1 0' }}>
+          <Grid item xs={12} md={4} key={col.key}>
             <Box 
-              sx={{ 
-                bgcolor: columnColors[col.key],
+              sx={(theme) => ({
+                bgcolor: columnColors(theme)[col.key],
                 borderRadius: 2,
                 p: 2,
                 minHeight: '500px'
-              }}
+              })}
             >
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6" fontWeight={700}>
+                <Typography variant="h6" fontWeight={700} color="text.primary">
                   {col.label}
                 </Typography>
                 <Chip 

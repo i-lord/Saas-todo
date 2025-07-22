@@ -71,7 +71,7 @@ function AnalyticsDashboard({ tasks, currentProject }) {
       
       {/* Key Metrics Cards */}
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <Paper sx={{ p: 2, textAlign: 'center', bgcolor: '#f3e5f5' }}>
             <Typography variant="h4" fontWeight={700} color="#7b1fa2">
               {totalTasks}
@@ -82,7 +82,7 @@ function AnalyticsDashboard({ tasks, currentProject }) {
           </Paper>
         </Grid>
         
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <Paper sx={{ p: 2, textAlign: 'center', bgcolor: '#e8f5e8' }}>
             <Typography variant="h4" fontWeight={700} color="#388e3c">
               {statusCounts.Done || 0}
@@ -93,7 +93,7 @@ function AnalyticsDashboard({ tasks, currentProject }) {
           </Paper>
         </Grid>
         
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <Paper sx={{ p: 2, textAlign: 'center', bgcolor: '#fff3e0' }}>
             <Typography variant="h4" fontWeight={700} color="#f57c00">
               {statusCounts['In Progress'] || 0}
@@ -104,7 +104,7 @@ function AnalyticsDashboard({ tasks, currentProject }) {
           </Paper>
         </Grid>
         
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <Paper sx={{ p: 2, textAlign: 'center', bgcolor: overdueTasks.length > 0 ? '#ffebee' : '#e3f2fd' }}>
             <Typography variant="h4" fontWeight={700} color={overdueTasks.length > 0 ? '#d32f2f' : '#1976d2'}>
               {overdueTasks.length}
@@ -264,9 +264,9 @@ const quickActions = [
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
       {/* Quick Actions Row */}
       <Box sx={{ mb: 3 }}>
-        <Grid container spacing={1} justifyContent="flex-start">
+        <Grid container spacing={{ xs: 1, sm: 2 }} justifyContent="flex-start">
           {quickActions.map((action) => (
-            <Grid item xs={6} sm={3} key={action.label}>
+            <Grid item xs={6} sm="auto" key={action.label}>
               <Button
                 variant="outlined"
                 color={action.color}
@@ -277,9 +277,10 @@ const quickActions = [
                   py: 1.2,
                   borderRadius: 2,
                   fontWeight: 600,
-                  fontSize: { xs: 13, md: 15 },
+                  fontSize: { xs: 12, sm: 14, md: 15 },
                   mb: { xs: 1, sm: 0 },
                   minHeight: 40,
+                  flexGrow: 1,
                 }}
               >
                 {action.label}
@@ -292,7 +293,7 @@ const quickActions = [
             <Typography variant="subtitle2" fontWeight={600} color="primary.main">
               Current Project
             </Typography>
-            <Typography variant="body1" fontWeight={700}>{currentProject.name}</Typography>
+            <Typography variant="body1" fontWeight={700} color="text.primary">{currentProject.name}</Typography>
             {currentProject.description && (
               <Typography variant="body2" color="text.secondary">{currentProject.description}</Typography>
             )}

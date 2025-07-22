@@ -36,18 +36,23 @@ const navItems = [
   { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
 ];
 
-function ProjectSelector() {
+function ProjectSelector({ inDrawer = false }) {
   const dispatch = useDispatch();
   const { projects, currentProjectId, status } = useSelector((state) => state.projects);
 
   if (status === "loading") {
-    return <CircularProgress size={28} sx={{ ml: 2 }} />;
+    return <CircularProgress size={28} sx={{ ml: inDrawer ? 0 : 2 }} />;
   }
   if (!projects.length) {
     return null;
   }
   return (
-    <FormControl size="small" sx={{ minWidth: 180, ml: 2 }}>
+    <FormControl size="small" sx={{ 
+      minWidth: 180, 
+      ml: inDrawer ? 0 : 2, 
+      width: inDrawer ? '100%' : 'auto',
+      mt: inDrawer ? 2 : 0 
+    }}>
       <InputLabel id="project-selector-label">Project</InputLabel>
       <Select
         labelId="project-selector-label"
@@ -76,9 +81,18 @@ export default function Layout() {
   const location = useLocation();
   const { projects, currentProjectId } = useSelector((state) => state.projects);
 
+  const handleNavClick = (path) => {
+    navigate(`/app${path === '/dashboard' ? '' : path}`);
+    setMobileOpen(false); // Close drawer on mobile
+  };
+
   const drawer = (
     <div>
       <Toolbar />
+      <Box sx={{ p: 2 }}>
+        <Typography variant="h6" sx={{ mb: 2 }}>SaaS To-Do</Typography>
+        <ProjectSelector inDrawer />
+      </Box>
       <List
         subheader={
           <ListSubheader component="div" disableSticky sx={{ fontWeight: 700, fontSize: 16, bgcolor: 'background.paper' }}>
@@ -88,12 +102,12 @@ export default function Layout() {
       >
         {navItems.map((item) => {
           const isActive = item.text === "Home"
-  ? location.pathname === "/app" || location.pathname === "/app/"
-  : location.pathname === `/app${item.path}`;
+            ? location.pathname === "/app" || location.pathname === "/app/"
+            : location.pathname === `/app${item.path}`;
           return (
             <ListItem key={item.text} disablePadding>
               <ListItemButton
-                onClick={() => navigate(`/app${item.path === '/dashboard' ? '' : item.path}`)}
+                onClick={() => handleNavClick(item.path)}
                 selected={isActive}
                 sx={isActive ? {
                   bgcolor: 'primary.100',
@@ -166,8 +180,10 @@ export default function Layout() {
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             SaaS To-Do App
           </Typography>
-          {/* Project Selector */}
-          <ProjectSelector />
+          {/* Project Selector - hidden on mobile */}
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <ProjectSelector />
+          </Box>
         </Toolbar>
       </AppBar>
       <Box
@@ -200,7 +216,11 @@ export default function Layout() {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{ 
+          flexGrow: 1, 
+          p: { xs: 2, sm: 3 }, // Responsive padding
+          width: { sm: `calc(100% - ${drawerWidth}px)` } 
+        }}
       >
         <Toolbar />
         <Outlet />

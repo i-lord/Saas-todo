@@ -147,7 +147,13 @@ const AnalyticsPage = () => {
     <Container maxWidth="lg" sx={{ mt: 2, mb: 4 }}>
       {/* Header */}
       <Box sx={{ mb: 4 }}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+        <Stack 
+          direction={{ xs: 'column', md: 'row' }} 
+          justifyContent="space-between" 
+          alignItems={{ xs: 'flex-start', md: 'center' }} 
+          sx={{ mb: 2 }}
+          spacing={{ xs: 2, md: 0 }}
+        >
           <Box>
             <Typography variant="h4" fontWeight={700} color="primary">
               📊 Analytics Dashboard
@@ -158,8 +164,13 @@ const AnalyticsPage = () => {
               </Typography>
             )}
           </Box>
-          <Stack direction="row" spacing={2} alignItems="center">
-            <FormControl size="small" sx={{ minWidth: 120 }}>
+          <Stack 
+            direction={{ xs: 'column', sm: 'row' }} 
+            spacing={2} 
+            alignItems="stretch" 
+            width={{ xs: '100%', md: 'auto' }}
+          >
+            <FormControl size="small" sx={{ minWidth: 120, width: '100%' }}>
               <InputLabel>Time Filter</InputLabel>
               <Select
                 value={timeFilter}
@@ -172,7 +183,11 @@ const AnalyticsPage = () => {
               </Select>
             </FormControl>
             <Tooltip title="Refresh Data">
-              <IconButton onClick={loadAnalytics} disabled={refreshing}>
+              <IconButton 
+                onClick={loadAnalytics} 
+                disabled={refreshing} 
+                sx={{ width: { xs: '100%', sm: 'auto' } }}
+              >
                 <Refresh sx={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
               </IconButton>
             </Tooltip>
@@ -272,8 +287,8 @@ const AnalyticsPage = () => {
 
       <Grid container spacing={3}>
         {/* Status Distribution Chart */}
-        <Grid item xs={12} md={8}>
-          <Paper sx={{ p: 3, height: '400px' }}>
+        <Grid item xs={12} lg={8}>
+          <Paper sx={{ p: { xs: 2, md: 3 }, height: '400px' }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
               <Typography variant="h6" fontWeight={600}>
                 📈 Task Status Distribution
@@ -292,8 +307,8 @@ const AnalyticsPage = () => {
         </Grid>
         
         {/* Progress Overview */}
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3, height: '400px' }}>
+        <Grid item xs={12} lg={4}>
+          <Paper sx={{ p: { xs: 2, md: 3 }, height: '400px' }}>
             <Typography variant="h6" fontWeight={600} sx={{ mb: 3 }}>
               🎯 Progress Overview
             </Typography>
@@ -357,8 +372,8 @@ const AnalyticsPage = () => {
         </Grid>
         
         {/* Overdue Tasks */}
-        <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 3, height: '350px', overflow: 'hidden' }}>
+        <Grid item xs={12} lg={6}>
+          <Paper sx={{ p: { xs: 2, md: 3 }, height: '350px', overflow: 'hidden' }}>
             <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
               ⚠️ Overdue Tasks ({metrics.overdueTasks.length})
             </Typography>
@@ -404,8 +419,8 @@ const AnalyticsPage = () => {
         </Grid>
         
         {/* Upcoming Tasks */}
-        <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 3, height: '350px', overflow: 'hidden' }}>
+        <Grid item xs={12} lg={6}>
+          <Paper sx={{ p: { xs: 2, md: 3 }, height: '350px', overflow: 'hidden' }}>
             <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
               📅 Due Soon ({metrics.upcomingTasks.length})
             </Typography>
@@ -476,18 +491,19 @@ function StatusBarChart({ data }) {
   return (
     <Box sx={{ 
       display: 'flex', 
-      gap: 4, 
+      gap: { xs: 2, sm: 4 }, 
       justifyContent: 'center', 
       alignItems: 'flex-end',
       height: '300px',
       pt: 2
     }}>
       {statuses.map((status) => (
-        <Box key={status} sx={{ textAlign: 'center', minWidth: '80px' }}>
+        <Box key={status} sx={{ textAlign: 'center', flex: 1 }}>
           <Box
             sx={{
               height: `${(data[status] / max) * 200}px`,
-              width: 60,
+              width: '100%',
+              maxWidth: 60,
               background: statusColors[status] || '#1976d2',
               borderRadius: 2,
               mb: 2,
