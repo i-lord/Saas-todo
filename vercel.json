@@ -1,25 +1,8 @@
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+      "source": "/api/:path*",
+      "destination": "https://us-central1-saas-todo-82a6a.cloudfunctions.net/api/:path*"
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "https://us-central1-saas-todo-82a6a.cloudfunctions.net/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ],
-  "env": {
-    "VITE_API_URL": "https://us-central1-saas-todo-82a6a.cloudfunctions.net/api"
-  }
+  ]
 }
